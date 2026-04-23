@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <div className="dark bg-background text-foreground min-h-screen">
       <Navbar />
       <HeroSection />
       <TrustedSection />
@@ -20,6 +20,6 @@ export default function Home() {
       <PricingSection />
       <CTASection />
       <Footer />
-    </main>
+    </div>
   );
 }

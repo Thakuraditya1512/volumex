@@ -8,6 +8,8 @@ import {
   IconClose,
   IconArrowRight,
 } from "./Icons";
+import { createClient } from "@/lib/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 const navLinks = [
   { label: "Product", href: "#features", hasDropdown: true },
@@ -21,11 +23,37 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+  
+  const supabase = createClient();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      if (user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+        setRole(profile?.role || "student");
+      }
+    };
+    checkUser();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    
+    return () => subscription.unsubscribe();
   }, []);
 
   // Close mobile menu on resize to desktop
@@ -147,7 +175,7 @@ export default function Navbar() {
           {/* CTA group */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
             <motion.a
-              href="#"
+              href={user ? (role === "admin" ? "/admin" : role === "employee" ? "/employee" : "/student") : "/login"}
               id="nav-login"
               whileHover={{ y: -1 }}
               style={{
@@ -162,11 +190,11 @@ export default function Navbar() {
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-primary)")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")}
             >
-              Login
+              {user ? "Dashboard" : "Login"}
             </motion.a>
 
             <motion.a
-              href="#pricing"
+              href={user ? (role === "admin" ? "/admin" : role === "employee" ? "/employee" : "/student") : "/signup"}
               id="nav-cta"
               whileHover={{ scale: 1.03, y: -1 }}
               whileTap={{ scale: 0.97 }}
@@ -254,11 +282,12 @@ export default function Navbar() {
                 ))}
                 <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
                   <motion.a
-                    href="#"
+                    href={user ? (role === "admin" ? "/admin" : "/student") : "/login"}
                     whileTap={{ scale: 0.97 }}
                     style={{ flex: 1, textAlign: "center", padding: "12px", borderRadius: 9, border: "1px solid var(--border)", color: "var(--text-primary)", textDecoration: "none", fontSize: 14, fontWeight: 600 }}
+                    onClick={() => setMobileOpen(false)}
                   >
-                    Login
+                    {user ? "Dashboard" : "Login"}
                   </motion.a>
                   <motion.a
                     href="#pricing"
