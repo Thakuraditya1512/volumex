@@ -40,6 +40,7 @@ import { createClient } from "@/lib/supabase/client";
 import { UserTask, Module } from "@/types";
 import { AppSidebar } from "@/components/AppSidebar";
 import GitHubAnalytics from "@/components/github/GitHubAnalytics";
+import LeetCodeStats from "@/components/leetcode/LeetCodeStats";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -281,9 +282,14 @@ export default function StudentDashboard() {
             })}
           </section>
 
-          {/* ── GITHUB ANALYTICS PANEL ───────────────────────────────────── */}
-          <section>
-            <GitHubAnalytics />
+          {/* ── DEVELOPER INTELLIGENCE ───────────────────────────────────── */}
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+                <GitHubAnalytics />
+            </div>
+            <div className="lg:col-span-1">
+                <LeetCodeStats />
+            </div>
           </section>
 
           {/* ── MAIN CONTENT GRID ─────────────────────────────────────────── */}
