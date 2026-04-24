@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const next = searchParams.get("next") ?? "/";
 
   if (code) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code);
     
     if (!error && user) {
@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         .eq("id", user.id)
         .single();
 
-      const role = profile?.role || "student";
+      const role = (profile as any)?.role || "student";
       const redirectUrl = role === "admin" ? "/admin" : "/student";
       
       return NextResponse.redirect(`${origin}${redirectUrl}`);

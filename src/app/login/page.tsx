@@ -25,15 +25,19 @@ export default function LoginPage() {
     if (authError) {
       setError(authError.message === "Email not confirmed" ? "Check your inbox to confirm your email." : authError.message);
     } else {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", (await supabase.auth.getUser()).data.user?.id)
-        .single();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
 
-      if (profile?.role === 'admin') router.push("/admin");
-      else if (profile?.role === 'employee') router.push("/employee");
-      else router.push("/student");
+        const role = (profile as any)?.role;
+        if (role === 'admin') router.push("/admin");
+        else if (role === 'employee') router.push("/employee");
+        else router.push("/student");
+      }
       router.refresh();
     }
   };

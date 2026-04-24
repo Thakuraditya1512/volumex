@@ -142,8 +142,8 @@ export default function StudentDashboard() {
   };
 
   const markTaskDone = async (taskId: string) => {
-    const { error } = await supabase
-      .from('user_tasks')
+    const { error } = await (supabase
+      .from('user_tasks') as any)
       .update({ status: 'done', completed_at: new Date().toISOString() })
       .eq('id', taskId);
       
@@ -151,7 +151,7 @@ export default function StudentDashboard() {
        setUserTasks(prev => prev.map(t => t.id === taskId ? {...t, status: 'done'} : t));
        if (selectedTask?.id === taskId) setSelectedTask({...selectedTask, status: 'done'});
        
-       await supabase.from('activities').insert({
+       await (supabase.from('activities') as any).insert({
          user_id: profile!.id,
          type: 'module',
          title: `Completed task: ${selectedTask?.title || 'Unknown'}`,

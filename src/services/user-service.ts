@@ -18,8 +18,8 @@ export const userService = {
   },
 
   async updateUserStatus(userId: string, status: "active" | "suspended" | "pending") {
-    const { data, error } = await supabase
-      .from("profiles")
+    const { data, error } = await (supabase
+      .from("profiles") as any)
       .update({ status })
       .eq("id", userId);
 

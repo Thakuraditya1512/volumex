@@ -302,6 +302,77 @@ export interface Database {
         };
         Update: {};
       };
+      user_tasks: {
+        Row: {
+          id: string;
+          user_id: string;
+          module_id: number;
+          title: string;
+          type: "video" | "quiz" | "link" | "text";
+          content_url: string | null;
+          content_body: string | null;
+          status: "locked" | "available" | "done";
+          completed_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          module_id: number;
+          title: string;
+          type: "video" | "quiz" | "link" | "text";
+          content_url?: string | null;
+          content_body?: string | null;
+          status?: "locked" | "available" | "done";
+          completed_at?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          title?: string;
+          status?: "locked" | "available" | "done";
+          completed_at?: string | null;
+        };
+      };
+      activities: {
+        Row: {
+          id: string;
+          user_id: string;
+          type: string;
+          title: string;
+          xp_earned: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          type: string;
+          title: string;
+          xp_earned: number;
+          created_at?: string;
+        };
+        Update: {};
+      };
+      modules: {
+        Row: {
+          id: number;
+          title: string;
+          description: string | null;
+          order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          title: string;
+          description?: string | null;
+          order: number;
+          created_at?: string;
+        };
+        Update: {
+          title?: string;
+          description?: string | null;
+          order?: number;
+        };
+      };
     };
     Views: {};
     Functions: {};

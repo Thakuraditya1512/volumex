@@ -98,9 +98,9 @@ export const SidebarMenuButton = React.forwardRef<
     const Child = render;
     return (
       <div className={cn("flex w-full items-center", className)}>
-        {React.cloneElement(Child, {
+        {React.cloneElement(Child as React.ReactElement<any>, {
           className: cn(
-            Child.props.className,
+            (Child.props as any).className,
             "flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-muted"
           ),
           ...props,

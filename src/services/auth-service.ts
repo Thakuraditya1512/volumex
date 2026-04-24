@@ -28,7 +28,7 @@ export const authService = {
       .single();
     
     if (error) return null;
-    return data.role;
+    return (data as any).role;
   },
   
   async getCurrentUser() {

@@ -44,7 +44,7 @@ export default function Navbar() {
           .select("role")
           .eq("id", user.id)
           .single();
-        setRole(profile?.role || "student");
+        setRole((profile as any)?.role || "student");
       }
     };
     checkUser();
