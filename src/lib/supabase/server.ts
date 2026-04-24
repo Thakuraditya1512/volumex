@@ -4,16 +4,16 @@ import { Database } from "../database.types";
 
 export async function createClient() {
   const cookieStore = await cookies();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "placeholder-key";
 
-  if (!url || !key) {
-    console.error("Supabase server client error: URL or Key is missing", { url: !!url, key: !!key });
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY && !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)) {
+    console.warn("Supabase server client: Missing environment variables. Using placeholders for build compatibility.");
   }
 
   return createServerClient<Database>(
-    url!,
-    key!,
+    url,
+    key,
     {
       cookies: {
         get(name: string) {

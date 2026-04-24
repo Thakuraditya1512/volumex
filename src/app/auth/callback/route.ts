@@ -19,7 +19,9 @@ export async function GET(request: Request) {
         .single();
 
       const role = (profile as any)?.role || "student";
-      const redirectUrl = role === "admin" ? "/admin" : "/student";
+      let redirectUrl = "/student";
+      if (role === "admin") redirectUrl = "/admin";
+      else if (role === "employee") redirectUrl = "/employee";
       
       return NextResponse.redirect(`${origin}${redirectUrl}`);
     }

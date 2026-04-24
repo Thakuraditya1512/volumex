@@ -39,6 +39,7 @@ import { useAuth } from "@/lib/context/AuthContext";
 import { createClient } from "@/lib/supabase/client";
 import { UserTask, Module } from "@/types";
 import { AppSidebar } from "@/components/AppSidebar";
+import GitHubAnalytics from "@/components/github/GitHubAnalytics";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -215,29 +216,31 @@ export default function StudentDashboard() {
               </div>
             </div>
 
-            <div className="shrink-0 rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-sm p-5 min-w-[240px] shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Current Streak</p>
-                  <p className="text-3xl font-black text-slate-900 flex items-center gap-2 mt-0.5">
-                    <FireIcon className="w-7 h-7 text-orange-500 fill-orange-500 stroke-none" />
-                    {streak} Days
-                  </p>
-                  <p className="text-xs text-slate-500 mt-0.5 font-bold">Best: 12 Days</p>
+            <div className="flex flex-col sm:flex-row gap-6 shrink-0">
+              <div className="rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-sm p-5 min-w-[240px] shadow-sm self-start">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Current Streak</p>
+                    <p className="text-3xl font-black text-slate-900 flex items-center gap-2 mt-0.5">
+                      <FireIcon className="w-7 h-7 text-orange-500 fill-orange-500 stroke-none" />
+                      {streak} Days
+                    </p>
+                    <p className="text-xs text-slate-500 mt-0.5 font-bold">Best: 12 Days</p>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-3">
-                <div className="flex justify-between mb-1.5 px-1">
-                  {DAYS.map((d, i) => (
-                    <span key={i} className="text-[10px] font-bold text-slate-400 w-6 text-center">{d}</span>
-                  ))}
-                </div>
-                <div className="flex justify-between">
-                  {STREAK_DAYS.map((active, i) => (
-                    <div key={i} className={`w-6 h-6 rounded-full flex items-center justify-center ${active ? "bg-indigo-600 shadow-md shadow-indigo-500/30" : "bg-slate-100 border border-slate-200"}`}>
-                      {active && <CheckCircleIcon className="w-3.5 h-3.5 text-white stroke-2" />}
-                    </div>
-                  ))}
+                <div className="mt-3">
+                  <div className="flex justify-between mb-1.5 px-1">
+                    {DAYS.map((d, i) => (
+                      <span key={i} className="text-[10px] font-bold text-slate-400 w-6 text-center">{d}</span>
+                    ))}
+                  </div>
+                  <div className="flex justify-between">
+                    {STREAK_DAYS.map((active, i) => (
+                      <div key={i} className={`w-6 h-6 rounded-full flex items-center justify-center ${active ? "bg-indigo-600 shadow-md shadow-indigo-500/30" : "bg-slate-100 border border-slate-200"}`}>
+                        {active && <CheckCircleIcon className="w-3.5 h-3.5 text-white stroke-2" />}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -276,6 +279,11 @@ export default function StudentDashboard() {
                 </div>
               );
             })}
+          </section>
+
+          {/* ── GITHUB ANALYTICS PANEL ───────────────────────────────────── */}
+          <section>
+            <GitHubAnalytics />
           </section>
 
           {/* ── MAIN CONTENT GRID ─────────────────────────────────────────── */}
