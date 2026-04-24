@@ -41,6 +41,7 @@ import { UserTask, Module } from "@/types";
 import { AppSidebar } from "@/components/AppSidebar";
 import GitHubAnalytics from "@/components/github/GitHubAnalytics";
 import LeetCodeStats from "@/components/leetcode/LeetCodeStats";
+import LinkedInCard from "@/components/linkedin/LinkedInCard";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -287,8 +288,9 @@ export default function StudentDashboard() {
             <div className="lg:col-span-2">
                 <GitHubAnalytics />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 space-y-8">
                 <LeetCodeStats />
+                <LinkedInCard />
             </div>
           </section>
 
