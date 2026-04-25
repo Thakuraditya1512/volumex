@@ -13,7 +13,7 @@ function GitHubCallbackContent() {
 
   useEffect(() => {
     const code = searchParams.get("code");
-    const error = searchParams.get("error");
+    const error = searchParams.get("error");//h
 
     if (error) {
       setStatus("error");
